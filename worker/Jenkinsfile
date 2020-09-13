@@ -43,7 +43,7 @@ pipeline {
             steps{
                 echo 'Packaging with Docker'       
                 script {
-                    docker.withRefistry('https://index.docker.io/v1', dockerhub) {
+                    docker.withRefistry('https://index.docker.io/v1/', dockerhub) {
                         def workerImage = docker.build("danielclough/worker:v${env.BUILD_ID}", "./worker")
                         workerImage.push()
                         workerImage.push("${env.BRANCH_NAME}")
