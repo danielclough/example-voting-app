@@ -1,0 +1,34 @@
+pipeline {
+
+    agent{
+        docker{
+            image 'python:slim'
+            args '-v $HOME/.m2:/root/.m2'
+        }
+    }
+    
+    stages{
+        stage('build'){
+            when { changeset "**/vote/*" }
+            steps{
+                echo 'Compiling'
+                dir('vote'){
+                    sh 'pip install -i requirements.txt'}
+            }
+        }
+        stage('test'){
+            when { changeset "**/vote/*" }
+            steps{
+                echo 'Testing'              
+                dir('vote'){
+                    sh 'nosetests'}
+            }
+        }
+    }
+
+    post{
+        always{
+            echo 'Complete!'
+        }
+    }
+}
