@@ -21,7 +21,9 @@ pipeline {
             steps{
                 echo 'Testing'              
                 dir('worker'){
+
                     sh 'mvn -e clean test'}
+
             }
         }
         stage('package'){
@@ -32,6 +34,7 @@ pipeline {
                     sh 'mvn -e package -DskipTests'
                     archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
                 }         
+
             }
         }
     }
