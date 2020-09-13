@@ -1,7 +1,9 @@
 pipeline {
+
     agent{
         docker{
             image 'maven:3.6.1-jdk-8-slim'
+            args '-v $HOME/.m2:/root/.m2'
         }
     }
     
@@ -10,26 +12,27 @@ pipeline {
             steps{
                 echo 'Compiling'
                 dir('worker'){
-                    sh 'mvn -eX compile'}
+                    sh 'mvn -e -X compile'}
             }
         }
         stage('test'){
             steps{
                 echo 'Testing'              
                 dir('worker'){
-                    sh 'mvn -e clean test'}
+                    sh 'mvn -eX clean test'}
             }
         }
         stage('package'){
             steps{
                 echo 'Packaging '       
                 dir('worker'){
-                    sh 'mvn -X package -DskipTests'
+                    sh 'mvn -eX package -DskipTests'
                     archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
                 }         
             }
         }
     }
+
     post{
         always{
             echo 'Complete!'
