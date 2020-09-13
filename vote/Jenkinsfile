@@ -9,7 +9,7 @@ pipeline {
     
     stages{
         stage('build'){
-            when { changeset "**/vote/*" }
+            when { changeset "**/vote/**" }
             steps{
                 echo 'Compiling'
                 dir('vote'){
@@ -17,7 +17,7 @@ pipeline {
             }
         }
         stage('test'){
-            when { changeset "**/vote/*" }
+            when { changeset "**/vote/**" }
             steps{
                 echo 'Testing'              
                 dir('vote'){

@@ -9,7 +9,7 @@ pipeline {
     
     stages{
         stage('build'){
-            when { changeset "**/worker/*" }
+            when { changeset "**/worker/**" }
             steps{
                 echo 'Compiling'
                 dir('worker'){
@@ -17,7 +17,7 @@ pipeline {
             }
         }
         stage('test'){
-            when { changeset "**/worker/*" }
+            when { changeset "**/worker/**" }
             steps{
                 echo 'Testing'              
                 dir('worker'){
@@ -25,7 +25,7 @@ pipeline {
             }
         }
         stage('package'){
-            when { changeset "**/worker/*" }
+            when { changeset "**/worker/**" }
             steps{
                 echo 'Packaging '       
                 dir('worker'){
