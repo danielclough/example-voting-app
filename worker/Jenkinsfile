@@ -12,21 +12,21 @@ pipeline {
             steps{
                 echo 'Compiling'
                 dir('worker'){
-                    sh 'mvn -e -X compile'}
+                    sh 'mvn -e compile'}
             }
         }
         stage('test'){
             steps{
                 echo 'Testing'              
                 dir('worker'){
-                    sh 'mvn -eX clean test'}
+                    sh 'mvn -e clean test'}
             }
         }
         stage('package'){
             steps{
                 echo 'Packaging '       
                 dir('worker'){
-                    sh 'mvn -eX package -DskipTests'
+                    sh 'mvn -e package -DskipTests'
                     archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
                 }         
             }
