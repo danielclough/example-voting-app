@@ -17,9 +17,4 @@ class UnitWorker {
     void sample3() {
 
     }
-
-    @Test
-    void sample4() {
-
-    }
 }

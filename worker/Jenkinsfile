@@ -1,36 +1,46 @@
 pipeline {
-    agent any
-    
-    tools{
-        maven 'maven 3.6.1'
-    }
 
+    agent{
+        docker{
+            image 'maven:3.6.1-jdk-8-slim'
+            args '-v $HOME/.m2:/root/.m2'
+        }
+    }
+    
     stages{
         stage('build'){
+            when { changeset "**/worker/**" }
             steps{
                 echo 'Compiling'
                 dir('worker'){
-                    sh 'mvn compile'}
+                    sh 'mvn -e compile'}
             }
         }
         stage('test'){
+            when { changeset "**/worker/**" }
             steps{
                 echo 'Testing'              
                 dir('worker'){
-                    sh 'mvn clean test'}
+
+                    sh 'mvn -e clean test'}
+
             }
         }
         stage('package'){
+            when { changeset "**/worker/**" }
             steps{
                 echo 'Packaging '       
                 dir('worker'){
-                    sh 'mvn package -DskipTests'}         
+                    sh 'mvn -e package -DskipTests'
+                    archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
+                }         
+
             }
         }
     }
+
     post{
         always{
-            archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
             echo 'Complete!'
         }
     }
