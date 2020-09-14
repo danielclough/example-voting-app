@@ -1,14 +1,17 @@
 pipeline {
 
-    agent{
-        docker{
-            image 'maven:3.6.1-jdk-8-slim'
-            args '-v $HOME/.m2:/root/.m2'
-        }
-    }
+    agent none 
     
     stages{
         stage('build'){
+
+            agent{
+                docker{
+                    image 'maven:3.6.1-jdk-8-slim'
+                    args '-v $HOME/.m2:/root/.m2'
+                }
+            }
+
             when { changeset "**/worker/**" }
             steps{
                 echo 'Compiling'
@@ -17,24 +20,35 @@ pipeline {
             }
         }
         stage('test'){
+
+            agent{
+                docker{
+                    image 'maven:3.6.1-jdk-8-slim'
+                    args '-v $HOME/.m2:/root/.m2'
+                }
+            }
+
             when { changeset "**/worker/**" }
             steps{
                 echo 'Testing'              
                 dir('worker'){
-
                     sh 'mvn -e clean test'}
-
             }
         }
-        stage('package'){
+        stage('docker-package'){
+
+            agent any
+
             when { changeset "**/worker/**" }
             steps{
-                echo 'Packaging '       
-                dir('worker'){
-                    sh 'mvn -e package -DskipTests'
-                    archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
-                }         
-
+                echo 'Packaging with Docker'       
+                script {
+                    docker.withRegistry('https://index.docker.io/v1/', 'dockerPW') {
+                        def workerImage = docker.build("danielclough/worker:v${env.BUILD_ID}", "./worker")
+                        workerImage.push()
+                        workerImage.push("${env.BRANCH_NAME}")
+                    }
+                }
             }
         }
     }
