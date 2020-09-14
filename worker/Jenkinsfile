@@ -39,7 +39,10 @@ pipeline {
 
             agent any
 
-            when { changeset "**/worker/**" }
+            when { 
+                changeset "**/worker/**" 
+                branch 'master'
+            }
             steps{
                 echo 'Packaging with Docker'       
                 script {
