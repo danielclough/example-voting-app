@@ -178,11 +178,12 @@ pipeline {
                 sh 'docker-compose up -d'
             }
 
-    }
+        }
 
-    post{
-        always{
-            echo 'Complete!'
+        post{
+            always{
+                echo 'Complete!'
+            }
         }
     }
 }
