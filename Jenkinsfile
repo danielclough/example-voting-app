@@ -180,10 +180,9 @@ pipeline {
 
         }
 
-        post{
-            always{
-                echo 'Complete!'
-            }
+    }
+    post{
+        always{
+            echo 'Complete!'
         }
     }
-}
