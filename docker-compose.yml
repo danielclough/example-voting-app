@@ -14,7 +14,7 @@ services:
       - instavote
 
   vote:
-    image: danielclough/vote:v10
+    image: danielclough/vote:master
     ports:
       - 5000:80
     depends_on:
@@ -32,7 +32,7 @@ services:
       - instavote
 
   result:
-    image:  danielclough/result:v9
+    image:  danielclough/result:master
     ports:
       - 5001:80
     depends_on:
@@ -41,7 +41,7 @@ services:
       - instavote
 
   worker:
-    image: danielclough/worker:v8
+    image: danielclough/worker:master
     depends_on:
       - redis
       - db
