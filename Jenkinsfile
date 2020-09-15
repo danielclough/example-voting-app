@@ -48,7 +48,7 @@ pipeline {
             steps{
                 echo 'Packaging with Docker'       
                 script {
-                    docker.withRegistry('https://index.docker.io/v1/', 'dockerPW') {
+                    docker.withRegistry('https://index.docker.io/v1/', 'pwDocker') {
                         def workerImage = docker.build("danielclough/worker:v${env.BUILD_ID}", "./worker")
                         workerImage.push()
                         workerImage.push("${env.BRANCH_NAME}")
@@ -99,7 +99,7 @@ pipeline {
             steps{
                 echo 'Packaging with Docker'       
                 script {
-                    docker.withRegistry('https://index.docker.io/v1/', 'dockerPW') {
+                    docker.withRegistry('https://index.docker.io/v1/', 'pwDocker') {
                         def resultImage = docker.build("danielclough/result:v${env.BUILD_ID}", "./result")
                         resultImage.push()
                         resultImage.push("${env.BRANCH_NAME}")
@@ -155,7 +155,7 @@ pipeline {
             steps{
                 echo 'Packaging with Docker'       
                 script {
-                    docker.withRegistry('https://index.docker.io/v1/', 'dockerPW') {
+                    docker.withRegistry('https://index.docker.io/v1/', 'pwDocker') {
                         def voteImage = docker.build("danielclough/vote:v${env.BUILD_ID}", "./vote")
                         voteImage.push()
                         voteImage.push("${env.BRANCH_NAME}")
