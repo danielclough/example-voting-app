@@ -48,7 +48,7 @@ pipeline {
 
             when { 
                 changeset "**/worker/**" 
-                // branch 'master'
+                branch 'master'
             }
             steps{
                 echo 'Packaging with Docker'       
@@ -99,7 +99,7 @@ pipeline {
             agent any
             when { 
                 changeset "**/result/**" 
-                // branch 'master'
+                branch 'master'
             }
             steps{
                 echo 'Packaging with Docker'       
@@ -155,7 +155,7 @@ pipeline {
             agent any
             when { 
                 changeset "**/vote/**" 
-                // branch 'master'
+                branch 'master'
             }
             steps{
                 echo 'Packaging with Docker'       
