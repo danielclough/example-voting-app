@@ -5,7 +5,7 @@ pipeline {
   // Worker Pipeline
     
     stages{
-        stage('build'){
+        stage('worker-build'){
 
             agent{
                 docker{
@@ -21,7 +21,7 @@ pipeline {
                     sh 'mvn -e compile'}
             }
         }
-        stage('test'){
+        stage('worker-test'){
 
             agent{
                 docker{
@@ -37,7 +37,7 @@ pipeline {
                     sh 'mvn -e clean test'}
             }
         }
-        stage('docker-package'){
+        stage('worker-docker-package'){
 
             agent any
 
@@ -71,7 +71,7 @@ pipeline {
     }
 
     stages{
-        stage('build'){
+        stage('result-build'){
             agent{
                 docker{
                     image 'node:8.9-alpine'
@@ -86,7 +86,7 @@ pipeline {
                 }
             }
         }
-        stage('test'){
+        stage('result-test'){
             agent{
                 docker{
                     image 'node:8.9-alpine'
@@ -102,7 +102,7 @@ pipeline {
                 }
             }
         }
-        stage('docker-package'){
+        stage('result-docker-package'){
             agent any
             when { 
                 changeset "**/result/**" 
@@ -124,7 +124,7 @@ pipeline {
   // Vote Pipeline
 
     stages{
-        stage('build'){
+        stage('vote-build'){
             agent{
                 docker{
                     image 'python:2.7.16-slim'
@@ -141,7 +141,7 @@ pipeline {
             }
         }
 
-        stage('test'){
+        stage('vote-test'){
             agent{
                 docker{
                     image 'python:2.7.16-slim'
@@ -159,7 +159,7 @@ pipeline {
             }
         }
 
-        stage('docker-package'){
+        stage('vote-docker-package'){
             agent any
             when { 
                 changeset "**/vote/**" 
