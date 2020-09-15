@@ -2,11 +2,6 @@ pipeline {
 
     agent none 
 
-    tools{
-        nodejs '8.9.0' // for Result
-    }
-
-
   // Worker Pipeline
     
     stages{
