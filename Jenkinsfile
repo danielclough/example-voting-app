@@ -168,6 +168,15 @@ pipeline {
                 }
             }
         }
+        stage('deploy-to-dev'){
+            agent any
+            when { 
+                branch 'master'
+            }
+            steps{
+                echo 'Deply to Dev'       
+                sh 'docker-compose up -d'
+            }
 
     }
 
