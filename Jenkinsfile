@@ -2,6 +2,11 @@ pipeline {
 
     agent none 
 
+    tools{
+        nodejs '8.9.0' // for Result
+    }
+
+
   // Worker Pipeline
     
     stages{
@@ -56,21 +61,9 @@ pipeline {
                 }
             }
         }
-    }
-
-    post{
-        always{
-            echo 'Complete!'
-        }
-    }
 
   // Result Pipeline
 
-    tools{
-        nodejs '8.9.0'
-    }
-
-    stages{
         stage('result-build'){
             agent{
                 docker{
@@ -119,11 +112,10 @@ pipeline {
                 }
             }
         }
-    }
+
 
   // Vote Pipeline
 
-    stages{
         stage('vote-build'){
             agent{
                 docker{
