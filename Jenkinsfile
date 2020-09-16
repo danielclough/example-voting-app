@@ -179,14 +179,13 @@ pipeline {
                 }
             }
         }
-        stage('deploy-to-dev'){
+        stage('e2e test'){
             agent any
             when { 
                 branch 'master'
             }
-            steps{
-                echo 'Deply to Dev'       
-                sh 'docker-compose up -d'
+            steps{      
+                sh './e2e.sh'
             }
 
         }
