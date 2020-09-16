@@ -5,6 +5,7 @@ pipeline {
   // Worker Pipeline
     
     stages{
+
         stage('worker-build'){
 
             agent{
@@ -173,6 +174,21 @@ pipeline {
                 sh 'docker-compose up -d'
             }
 
+        }
+        stage('Sonarqube') {
+            when {
+                branch 'master'
+            }
+            agent any 
+            environment{
+                sonarpath = tool 'SonarScanner'
+            }
+            steps {
+                echo 'Running Sonarqube'
+                  withSonarQubeEnv('sonar') {
+                    sh "${sonarpath}/bin/sonar-scanner -Dproject.settings=sonar-project.properties"
+                  }
+            }
         }
 
     }
